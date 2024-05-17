@@ -3,11 +3,15 @@ const app = express();
 
 const userRoutes = require('./src/routes/user.routes');
 
-app.use('/soma', userRoutes);
+const port = 3000;
 
-app.listen(3000, () => {
+app.use(express.json());
+
+app.use('/user', userRoutes);
+
+app.listen(port, () => {
 
     console.log('')
-    console.log('Servidor rodando na porta http://localhost:3000');
+    console.log(`Servidor rodando na porta http://localhost:${port}`);
     console.log('');
 });
