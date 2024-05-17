@@ -1,1 +1,1 @@
-# mern-stack-study
+# Mongo Express React NodeJs (MERN)
