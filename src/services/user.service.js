@@ -1,7 +1,13 @@
 const User = require('../models/User');
 
-const create = (body) => User.create(body);
+const createService = (body) => User.create(body);
+
+const indexService = () => User.find();
+
+const showService = (id) => User.findById(id);
 
 module.exports = {
-    create,
+    createService,
+    indexService,
+    showService,
 }
