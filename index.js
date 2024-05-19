@@ -1,10 +1,11 @@
-const express = require("express");
+import express from 'express';
+
+import connectDatabase from './src/database/db.js';
+import userRoutes from './src/routes/user.routes.js';
+
 const app = express();
-
-const connectDatabase = require('./src/database/db');
-const userRoutes = require('./src/routes/user.routes');
-
 const port = 3000;
+
 
 connectDatabase();
 

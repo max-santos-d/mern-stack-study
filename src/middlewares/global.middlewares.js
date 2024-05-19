@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const userService = require('../services/user.service');
+import userService from '../services/user.service.js';
 
 const isValid = async (req, res, next) => {
     try {
@@ -19,4 +19,4 @@ const isValid = async (req, res, next) => {
 
 };
 
-module.exports = { isValid };
+export default isValid;
