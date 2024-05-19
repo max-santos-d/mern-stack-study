@@ -4,9 +4,8 @@ const store = async (req, res) => {
     try {
         const { name, username, email, password, avatar, background } = req.body;
 
-        console.log(name, username, email, password, avatar, background);
-
-        if (!name || !username || !email || !password || !avatar || !background) return res.send({ message: "Campos obrigatórios em falta!" });
+        if (!name || !username || !email || !password || !avatar || !background) 
+            return res.send({ message: "Campos obrigatórios em falta!" });
 
         const user = await userService.storeService(req.body);
 
@@ -14,18 +13,10 @@ const store = async (req, res) => {
 
         res.status(200).send({
             message: 'Usuário criado com sucesso',
-            user: {
-                id: user._id,
-                name,
-                username,
-                email,
-                password,
-                avatar,
-                background
-            }
+            user
         });
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        res.status(400).send({ message: err.message });
         console.log(err);
     };
 };
