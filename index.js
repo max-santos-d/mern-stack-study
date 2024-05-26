@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import connectDatabase from './src/database/db.js';
 import userRoutes from './src/routes/user.routes.js';
 import authRoutes from './src/routes/auth.routes.js';
-import newsRoutes from './src/routes/news.routes.js'
+import newsRoutes from './src/routes/news.routes.js';
 
 dotenv.config();
 connectDatabase();

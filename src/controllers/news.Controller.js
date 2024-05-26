@@ -3,22 +3,19 @@ import newsService from '../services/news.service.js';
 const store = async (req, res) => {
     try {
         const { title, text, banner } = req.body;
+        const userId = req.userId;
 
         if (!title || !text || !banner)
             return res.send({ message: "Campos obrigatórios em falta!" });
 
-        const news = await newsService.store(
-            {
-                title,
-                text,
-                banner,
-                user: '664a8047c0f5435e6a4f1b14',
-            });
-
-        return res.status(201).send({
-            message: 'Notícia cadastrada!',
-            news
+        await newsService.store({
+            title,
+            text,
+            banner,
+            user: req.userId,
         });
+
+        return res.status(201).send({ message: 'Notícia cadastrada!' });
     } catch (err) {
         console.log(err);
         return res.status(400).send({ message: err.message })
