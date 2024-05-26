@@ -4,7 +4,7 @@ const store = async (req, res) => {
     try {
         const { name, username, email, password, avatar, background } = req.body;
 
-        if (!name || !username || !email || !password || !avatar || !background) 
+        if (!name || !username || !email || !password || !avatar || !background)
             return res.send({ message: "Campos obrigatórios em falta!" });
 
         const user = await userService.storeService(req.body);
@@ -70,4 +70,9 @@ const update = async (req, res) => {
 
 };
 
-export default { store, index, show, update };
+export default {
+    store,
+    index,
+    show,
+    update
+};

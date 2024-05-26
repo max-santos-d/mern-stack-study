@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDatabase from './src/database/db.js';
 import userRoutes from './src/routes/user.routes.js';
 import authRoutes from './src/routes/auth.routes.js';
+import newsRoutes from './src/routes/news.routes.js'
 
 dotenv.config();
 connectDatabase();
@@ -14,6 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/news', newsRoutes)
 
 app.listen(port, () => {
 
