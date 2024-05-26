@@ -8,7 +8,7 @@ const isValid = async (req, res, next) => {
 
         const user = await userService.showService(req.params.id);
 
-        if (!user) return res.status(400).send({ message: 'Não encontrado!' });
+        if (!user) return res.status(400).send({ message: 'ID de Usuário não encontrado!' });
 
         req.user = user;
         next();
