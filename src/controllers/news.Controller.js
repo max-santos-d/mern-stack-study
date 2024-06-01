@@ -25,6 +25,7 @@ const index = async (req, res) => {
 
     try {
         let { limit, offset } = req.query;
+
         limit = Number(limit) || Number(5);
         offset = Number(offset) || Number(0);
 
@@ -63,12 +64,35 @@ const index = async (req, res) => {
 };
 
 const show = async (req, res) => {
+
     try {
-        const news = await newsService.showService();
+        const { id } = req.params;
+
+        if (id) {
+            const news = await newsService.showService(id);
+
+            if (!news) return res.statatus(400).send({ message: 'Noticia não encontrada!' });
+
+            return res.status(200).send({
+                news: {
+                    id: news._id,
+                    title: news.title,
+                    text: news.text,
+                    banner: news.banner,
+                    likes: news.likes,
+                    comments: news.comments,
+                    name: news.user.name,
+                    userName: news.user.username,
+                    userAvatar: news.user.avatar,
+                },
+            });
+        };
+
+        const news = await newsService.showLastService();
 
         if (!news) return res.statatus(400).send({ message: 'Não há notícias cadastradas!' });
 
-        res.status(200).send({
+        return res.status(200).send({
             news: {
                 id: news._id,
                 title: news.title,
@@ -83,7 +107,7 @@ const show = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
-        return res.send({ message: 'Não há notícias cadastradas!' })
+        return res.send({ message: 'Noticia não encontrada!' })
     };
 };
 
