@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/news', newsRoutes)
+app.use('/news', newsRoutes);
 
 app.listen(port, () => {
 

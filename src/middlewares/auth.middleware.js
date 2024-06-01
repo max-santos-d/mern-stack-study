@@ -13,7 +13,7 @@ export const authMiddleware = (req, res, next) => {
 
         const [schema, token] = authorization.split(' ');
 
-        if (!schema && !token) return res.sendStatus(401);
+        if (!schema || !token) return res.sendStatus(401);
         if (schema !== 'Bearer') return res.sendStatus(401);
 
         jwt.verify(token, process.env.SECRET_JWT, async (err, decoded) => {
