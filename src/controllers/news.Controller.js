@@ -62,7 +62,33 @@ const index = async (req, res) => {
     };
 };
 
+const show = async (req, res) => {
+    try {
+        const news = await newsService.showService();
+
+        if (!news) return res.statatus(400).send({ message: 'Não há notícias cadastradas!' });
+
+        res.status(200).send({
+            news: {
+                id: news._id,
+                title: news.title,
+                text: news.text,
+                banner: news.banner,
+                likes: news.likes,
+                comments: news.comments,
+                name: news.user.name,
+                userName: news.user.username,
+                userAvatar: news.user.avatar,
+            },
+        });
+    } catch (err) {
+        console.log(err);
+        return res.send({ message: 'Não há notícias cadastradas!' })
+    };
+};
+
 export default {
     store,
     index,
+    show
 };

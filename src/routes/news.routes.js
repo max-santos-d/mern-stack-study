@@ -7,7 +7,7 @@ const routes = Router();
 
 routes.post('/', authMiddleware, newsController.store);
 routes.get('/', newsController.index);
-// routes.get('/:id', newsController.show);
+routes.get('/last', newsController.show);
 // routes.patch('/:id', newsController.update);
 
 export default routes;
