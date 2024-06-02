@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import newsService from '../services/news.service.js';
 
 const store = async (req, res) => {
@@ -139,6 +140,33 @@ const show = async (req, res) => {
     };
 };
 
+const update = async (req, res) => {
+    try{
+        const {title, text, banner} = req.body;
+        const id = req.params.id;
+        const userIdToken = req.userId;
+        
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).send({ message: 'ID de News inválida!' });
+
+        const userIdNews = await newsService.showService(id);
+
+        if(String(userIdNews.user._id) !== String(userIdToken)) return res.status(400).send({message: 'Não autenticado como usuário da News!'});
+        if(!title && !text && !banner) return res.status(400).send({message: 'Ao menos um campo obrigatório deve ser informado: title, text ou banner.'})
+        
+        await newsService.updateService(
+            id,
+            title,
+            text,
+            banner,
+        );
+
+        return res.status(200).send({message: 'News atualizada!'});
+    }catch(err) {
+        console.log(err);
+        res.status(400).send({message: err.message});
+    }
+};
+
 const messages = async (req, res) => {
     try {
         const userId = req.userId
@@ -169,5 +197,6 @@ export default {
     store,
     index,
     show,
+    update,
     messages
 };

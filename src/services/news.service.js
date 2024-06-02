@@ -14,9 +14,11 @@ const showByTitleService = (title) => News.find({
     title: { $regex: `${title || ''}`, $options: 'i' },
 }).sort({ _id: -1 }).populate('user');
 
-const userMessagesService = (id) => News.find({user: id}).sort({ _id: -1 }).populate('user');
+const userMessagesService = (id) => News.find({ user: id }).sort({ _id: -1 }).populate('user');
 
 const contNews = () => News.countDocuments();
+
+const updateService = (id, title, text, banner) => News.findByIdAndUpdate({ _id: id }, { title, text, banner });
 
 export default {
     store,
@@ -27,4 +29,5 @@ export default {
     showByTitleService,
     userMessagesService,
     contNews,
+    updateService,
 };
