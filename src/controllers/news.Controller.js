@@ -141,18 +141,19 @@ const show = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    try{
-        const {title, text, banner} = req.body;
-        const id = req.params.id;
-        const userIdToken = req.userId;
-        
+    try {
+        const { title, text, banner } = req.body;
+        const id = req.params.id || '';
+        const userIdToken = req.userId || '';
+
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).send({ message: 'ID de News inválida!' });
 
-        const userIdNews = await newsService.showService(id);
+        const news = await newsService.showService(id);
 
-        if(String(userIdNews.user._id) !== String(userIdToken)) return res.status(400).send({message: 'Não autenticado como usuário da News!'});
-        if(!title && !text && !banner) return res.status(400).send({message: 'Ao menos um campo obrigatório deve ser informado: title, text ou banner.'})
-        
+        if(!news) return res.status(400).send({message: 'News não encontrada!'});
+        if (String(news.user._id) !== String(userIdToken)) return res.status(400).send({message: 'Não autenticado como usuário da News.'});
+        if (!title && !text && !banner) return res.status(400).send({ message: 'Ao menos um campo obrigatório deve ser informado: title, text ou banner.' })
+
         await newsService.updateService(
             id,
             title,
@@ -160,11 +161,34 @@ const update = async (req, res) => {
             banner,
         );
 
-        return res.status(200).send({message: 'News atualizada!'});
-    }catch(err) {
+        return res.status(200).send({ message: 'News atualizada!' });
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({ message: err.message });
+    }
+};
+
+const erase = async (req, res) => {
+    try {
+        const id = req.params.id;
+        
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).send({ message: 'ID News inválida!' });
+        
+        const userIdToken = req.userId;
+        const news = await newsService.showService(id);
+
+        if(!news) return res.status(400).send({message: 'News não encontrada!'});
+        if (String(news.user._id) !== String(userIdToken)) return res.status(400).send({message: 'Não autenticado como usuário da News.'});
+
+        await newsService.eraseService(id);
+
+        res.status(200).send({message: 'News Apagada!'});
+
+    }catch (err) {
         console.log(err);
         res.status(400).send({message: err.message});
     }
+    
 };
 
 const messages = async (req, res) => {
@@ -198,5 +222,6 @@ export default {
     index,
     show,
     update,
+    erase,
     messages
 };

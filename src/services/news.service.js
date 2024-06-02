@@ -20,6 +20,8 @@ const contNews = () => News.countDocuments();
 
 const updateService = (id, title, text, banner) => News.findByIdAndUpdate({ _id: id }, { title, text, banner });
 
+const eraseService = (id) => News.findByIdAndDelete({_id: id});
+
 export default {
     store,
     indexService,
@@ -30,4 +32,5 @@ export default {
     userMessagesService,
     contNews,
     updateService,
+    eraseService,
 };
