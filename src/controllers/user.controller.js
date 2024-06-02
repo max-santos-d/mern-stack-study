@@ -1,4 +1,5 @@
 import userService from '../services/user.service.js';
+import newsService from '../services/news.service.js';
 
 const store = async (req, res) => {
     try {
@@ -36,8 +37,9 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
     try {
-        const user = req.user;
-        return res.status(200).send(user);
+        const userId = req.user;
+        
+        return res.status(200).send(userId);
     } catch (err) {
         res.status(500).send({ message: err.message });
         console.log(err);

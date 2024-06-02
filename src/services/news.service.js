@@ -14,6 +14,8 @@ const showByTitleService = (title) => News.find({
     title: { $regex: `${title || ''}`, $options: 'i' },
 }).sort({ _id: -1 }).populate('user');
 
+const userMessagesService = (id) => News.find({user: id}).sort({ _id: -1 }).populate('user');
+
 const contNews = () => News.countDocuments();
 
 export default {
@@ -23,5 +25,6 @@ export default {
     showService,
     showLastService,
     showByTitleService,
+    userMessagesService,
     contNews,
 };

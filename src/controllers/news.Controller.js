@@ -69,33 +69,30 @@ const index = async (req, res) => {
 const show = async (req, res) => {
 
     try {
-        const { id, title } = req.query;
-        let { last } = req.query;
+        if (req.query.last) {
+            if (req.query.last.toLowerCase() === 'true') {
+                const news = await newsService.showLastService();
 
-        if (last) last = last.toLowerCase();
+                if (!news) return res.statatus(400).send({ message: 'Não há notícias cadastradas!' });
 
-        if (last === 'true') {
-            const news = await newsService.showLastService();
-
-            if (!news) return res.statatus(400).send({ message: 'Não há notícias cadastradas!' });
-
-            return res.status(200).send({
-                news: {
-                    id: news._id,
-                    title: news.title,
-                    text: news.text,
-                    banner: news.banner,
-                    likes: news.likes,
-                    comments: news.comments,
-                    name: news.user.name,
-                    userName: news.user.username,
-                    userAvatar: news.user.avatar,
-                },
-            });
+                return res.status(200).send({
+                    news: {
+                        id: news._id,
+                        title: news.title,
+                        text: news.text,
+                        banner: news.banner,
+                        likes: news.likes,
+                        comments: news.comments,
+                        name: news.user.name,
+                        userName: news.user.username,
+                        userAvatar: news.user.avatar,
+                    },
+                });
+            };
         };
 
-        if (id) {
-            const news = await newsService.showService(id);
+        if (req.query.id) {
+            const news = await newsService.showService(req.query.id);
 
             if (!news) return res.statatus(400).send({ message: 'Noticia não encontrada!' });
 
@@ -114,10 +111,10 @@ const show = async (req, res) => {
             });
         };
 
-        if (title) {
-            const news = await newsService.showByTitleService(title);
+        if (req.query.title) {
+            const news = await newsService.showByTitleService(req.query.title);
 
-            if(!news) res.status(400).send({message: 'Nenhuma noticia com o título'});
+            if (!news) res.status(400).send({ message: 'Nenhuma noticia com o título' });
 
             return res.status(200).send({
                 result: news.map(item => ({
@@ -142,8 +139,35 @@ const show = async (req, res) => {
     };
 };
 
+const messages = async (req, res) => {
+    try {
+        const userId = req.userId
+        const news = await newsService.userMessagesService(userId);
+
+        if (!news) return res.status(400).send({ message: 'Nenhuma News encontrada!' });
+
+        return res.status(200).send({
+            userId,
+            news: news.map(item => ({
+                id: item._id,
+                title: item.title,
+                text: item.text,
+                banner: item.banner,
+                likes: item.likes,
+                comments: item.comments,
+                name: item.user.name,
+                userName: item.user.username,
+                userAvatar: item.user.avatar
+            })),
+        });
+    } catch (err) {
+        console.log(err);
+    };
+};
+
 export default {
     store,
     index,
-    show
+    show,
+    messages
 };
