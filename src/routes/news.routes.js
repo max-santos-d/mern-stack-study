@@ -12,5 +12,6 @@ routes.patch('/:id', authMiddleware, newsController.update);
 routes.delete('/:id', authMiddleware, newsController.erase);
 
 routes.get('/messages', authMiddleware, newsController.messages);
+routes.patch('/like/:id', authMiddleware, newsController.like);
 
 export default routes;

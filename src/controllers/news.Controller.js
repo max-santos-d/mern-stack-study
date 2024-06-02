@@ -217,11 +217,30 @@ const messages = async (req, res) => {
     };
 };
 
+const like = async (req, res) => {
+    const id = req.params.id;
+    const userIdToken = req.userId;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).send({ message: 'ID News inválida!' });
+
+    const like = await newsService.likeService(id, userIdToken);
+
+    if(!like) {
+        await newsService.deleteLikeService(id, userIdToken);
+        return res.status(200).send({message: 'LIKE removido!'})
+    }; 
+
+    console.log(like);    
+
+    return res.status(200).send({message: 'LIKE adicionado!'});
+};
+
 export default {
     store,
     index,
     show,
     update,
     erase,
-    messages
+    messages,
+    like,
 };

@@ -20,7 +20,17 @@ const contNews = () => News.countDocuments();
 
 const updateService = (id, title, text, banner) => News.findByIdAndUpdate({ _id: id }, { title, text, banner });
 
-const eraseService = (id) => News.findByIdAndDelete({_id: id});
+const eraseService = (id) => News.findByIdAndDelete({ _id: id });
+
+const likeService = (newsId, userId) => News.findOneAndUpdate(
+    { _id: newsId, 'likes.userId': { $nin: [userId] } },
+    { $push: { likes: { userId, createdAt: new Date() } } }
+);
+
+const deleteLikeService = (newsId, userId) => News.findOneAndUpdate(
+    { _id: newsId },
+    { $pull: { likes: { userId } } }
+);
 
 export default {
     store,
@@ -33,4 +43,6 @@ export default {
     contNews,
     updateService,
     eraseService,
+    likeService,
+    deleteLikeService,
 };
