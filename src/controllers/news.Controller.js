@@ -72,6 +72,8 @@ const show = async (req, res) => {
             if (req.query.last.toLowerCase() === 'true') {
                 const news = await newsService.showLastService();
 
+                if (!news) return res.statatus(400).send({ message: 'Não há notícias cadastradas!' });
+
                 return res.status(200).send({
                     news: {
                         id: news._id,
