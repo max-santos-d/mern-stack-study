@@ -36,8 +36,6 @@ const index = async (req, res) => {
             const previous = offset - limit < 0 ? null : offset - limit;
             const previousUrl = previous != null ? `${req.baseUrl}?limit=${limit}&offset=${previous}` : null;
 
-            if (news.length === 0) return res.status(400).send({ message: 'Não há notícias cadastradas.' });
-
             return res.status(200).send({
                 nextUrl,
                 previousUrl,
@@ -73,8 +71,6 @@ const show = async (req, res) => {
         if (req.query.last) {
             if (req.query.last.toLowerCase() === 'true') {
                 const news = await newsService.showLastService();
-
-                if (!news) return res.statatus(400).send({ message: 'Não há notícias cadastradas!' });
 
                 return res.status(200).send({
                     news: {
