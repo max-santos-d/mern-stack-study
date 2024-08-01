@@ -28,7 +28,7 @@ const index = async (req, res) => {
         const { limit, offset } = req.query;
 
         if (limit || offset) {
-
+            
             const news = await newsService.indexPageService(limit, offset);
             const total = await newsService.contNews();
             const next = offset + limit;
@@ -56,7 +56,7 @@ const index = async (req, res) => {
             });
         };
 
-        const news = await newsService.indexService(limit, offset);
+        const news = await newsService.indexService();
         return res.status(200).send(news);
 
     } catch (err) {
