@@ -11,11 +11,12 @@ const store = async (req, res) => {
     };
 };
 
+
 const index = async (req, res) => {
     const { limit, offset } = req.query;
 
     try {
-        const news = await newsService.index({ limit, offset });
+        const news = await newsService.index({ limit, offset }, req.baseUrl);
         return res.status(200).send(news);
     } catch (err) {
         console.log(err);
@@ -62,7 +63,7 @@ const erase = async (req, res) => {
 
 const messages = async (req, res) => {
     const userId = req.userId
-    
+
     try {
         const response = await newsService.messages(userId);
         return res.status(200).send(response);
@@ -75,10 +76,10 @@ const like = async (req, res) => {
     const id = req.params.id;
     const userIdToken = req.userId;
 
-    try{
+    try {
         const response = await newsService.like(id, userIdToken);
         return res.status(200).send(response);
-    } catch (err){
+    } catch (err) {
         console.log(err);
         return res.status(500).send(err.message);
     }

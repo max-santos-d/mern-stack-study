@@ -2,7 +2,7 @@ import News from '../models/News.js';
 
 const store = (body) => News.create(body);
 
-const index = () => News.find();
+const index = () => News.find().sort({ _id: -1 });
 
 const indexPage = (limit, offset) => News.find().sort({ _id: -1 }).skip(offset).limit(limit).populate('user');
 
