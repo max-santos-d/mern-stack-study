@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 import loginService from '../services/auth.service.js'
 
 const login = async (req, res) => {
