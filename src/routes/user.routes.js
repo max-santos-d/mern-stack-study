@@ -1,14 +1,14 @@
-import express from 'express';
+import { Router } from 'express';
 
 import userController from '../controllers/user.controller.js';
 import isValid from '../middlewares/global.middlewares.js';
-import {authMiddleware} from '../middlewares/auth.middleware.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
-const routes = express.Router();
+const userRoutes = Router();
 
-routes.post('/', userController.store);
-routes.get('/', userController.index);
-routes.get('/:id', authMiddleware, isValid, userController.show);
-routes.patch('/:id', authMiddleware, isValid, userController.update);
+userRoutes.post('/', userController.store);
+userRoutes.get('/', userController.index);
+userRoutes.get('/:id', authMiddleware, isValid, userController.show);
+userRoutes.patch('/:id', authMiddleware, isValid, userController.update);
 
-export default routes;
+export default userRoutes;

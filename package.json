@@ -2,11 +2,11 @@
   "name": "mern-stack-study",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index",
-    "start": "nodemon index"
+    "dev": "nodemon server",
+    "start": "nodemon server"
   },
   "keywords": [],
   "author": "",
