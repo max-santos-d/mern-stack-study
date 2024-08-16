@@ -6,7 +6,7 @@ const isValid = async (req, res, next) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send({ message: 'ID de Usuário inválido' });
 
-        const user = await userService.showService(req.params.id);
+        const user = await userService.show(req.params.id);
 
         if (!user) return res.status(400).send({ message: 'ID de Usuário não encontrado!' });
 
