@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import newsController from '../controllers/news.Controller.js';
+import newsController from '../controllers/news.controller.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const newsRoutes = Router();

@@ -1,9 +1,22 @@
-import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
-import User from '../models/User.js';
+import authRepository from '../repositories/auth.repositories.js'
 
-const loginService = (email) => User.findOne({ email }).select('+password');
+const login = async (email, password, userPassword, userId) => {
 
-const generateToken = (id) => jwt.sign({ id }, process.env.SECRET_JWT, { expiresIn: 86400 });
+    if (!email || !password) throw new Error('Email e senha requerido.');
 
-export { loginService, generateToken };
+    const user = await authRepository.login(email);
+
+    if (!user) throw new Error('Usuário ou senha incorreto.'); 
+    
+    const passwordIsValid = bcrypt.compareSync(password, userPassword);
+
+    if (!passwordIsValid) return res.status(404).send({ message: 'Usuário ou senha incorreto.' });
+
+    const token = generateToken(userId);
+
+    return ({ token });
+};
+
+export default { login };
