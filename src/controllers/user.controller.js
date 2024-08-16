@@ -1,59 +1,49 @@
 import userService from '../services/user.service.js';
-import newsService from '../services/news.service.js';
 
 const store = async (req, res) => {
+    const { name, username, email, password, avatar, background } = req.body;
+
     try {
-        const { name, username, email, password, avatar, background } = req.body;
-
-        if (!name || !username || !email || !password || !avatar || !background)
-            return res.send({ message: "Campos obrigatórios em falta!" });
-
-        const user = await userService.storeService(req.body);
-
-        if (!user) return res.status(400).send({ error: 'Erro ao criar usuario' })
+        const user = await userService.store({ name, username, email, password, avatar, background });
 
         res.status(200).send({
             message: 'Usuário criado com sucesso',
             user
         });
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        res.status(500).send(err.message);
         console.log(err);
     };
 };
 
 const index = async (req, res) => {
     try {
-        const users = await userService.indexService();
-
-        if (users.length === 0) return res.status(400).send({ message: 'Não há usuários cadastrados.' });
-
+        const users = await userService.index();
         return res.status(200).send(users);
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        res.status(500).send(err.message);
         console.log(err);
     };
 };
 
 const show = async (req, res) => {
+    const userId = req.user;
+
     try {
-        const userId = req.user;
-        
-        return res.status(200).send(userId);
+        const user = await userService.show(userId);
+        return res.status(200).send(user);
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        res.status(500).send(err.message);
         console.log(err);
     }
 };
 
 const update = async (req, res) => {
+    const id = req.user._id;
+    const { name, username, email, password, avatar, background } = req.body;
+    
     try {
-        const id = req.user._id;
-        const { name, username, email, password, avatar, background } = req.body;
-
-        if (!name && !username && !email && !password && !avatar && !background) return res.send({ message: "Pelo menos um campo deve ser informado para update!" });
-
-        const newUser = await userService.updateService(
+        const response = await userService.updateService(
             id,
             name,
             username,
@@ -63,9 +53,9 @@ const update = async (req, res) => {
             background,
         );
 
-        return res.status(200).send({ message: 'Usuário atualizado!' });
+        return res.status(200).send(response);
     } catch (err) {
-        res.status(500).send({ message: err.message });
+        res.status(500).send(err.message);
         console.log(err);
         ;
     }

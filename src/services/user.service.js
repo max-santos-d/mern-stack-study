@@ -1,33 +1,65 @@
-import User from '../models/User.js';
+import userRepositories from "../repositories/user.repositories.js";
 
-const storeService = (body) => User.create(body);
+const store = async ({ name, username, email, password, avatar, background }) => {
+    if (!name || !username || !email || !password || !avatar || !background)
+        throw new Error("Campos obrigatórios em falta! -> <name, username, email, password, avatar, background> ")
 
-const indexService = () => User.find();
+    const user = await userRepositories.storeRepository(
+        {
+            name,
+            username,
+            email,
+            password,
+            avatar,
+            background
+        });
 
-const showService = (id) => User.findById(id);
+    if (!user) throw new Error('Erro ao criar usuario')
 
-const updateService = (
-    id,
-    name,
-    username,
-    email,
-    password,
-    avatar,
-    background,
-) => User.findOneAndUpdate(
-    { _id: id },
-    {
+    return user;
+};
+
+const index = async () => {
+    const users = await userRepositories.indexRepository();
+
+    if (users.length === 0) throw new Error('Não há usuários cadastrados.')
+
+    return users;
+};
+
+const show = async (userId) => {
+    const user = userRepositories.showRepository(userId);
+    if (!user) throw new Error('Usuário não encontrado!');
+    return user;
+};
+
+const update = async ({ name, username, email, password, avatar, background }, userId) => {
+
+    if (!name && !username && !email && !password && !avatar && !background)
+        throw new Error('Pelo menos um campo deve ser informado para atualização!')
+
+    const user = await userRepositories.indexRepository();
+
+    if (!user) throw new Error('Usuário não encontrado!');
+
+    // implementar funcionalidade para mudança de password
+
+    await userRepositories.updateRepository(
+        userId,
         name,
         username,
         email,
         password,
         avatar,
         background,
-    });
+    );
+
+    return { message: 'Usuário atualizado!' };
+};
 
 export default {
-    storeService,
-    indexService,
-    showService,
-    updateService,
-}
+    store,
+    index,
+    show,
+    update
+};
