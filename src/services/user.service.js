@@ -33,7 +33,7 @@ const show = async (userId) => {
     return user;
 };
 
-const update = async ({ name, username, email, password, avatar, background }, userId) => {
+const update = async (userId, { name, username, email, password, avatar, background }) => {
 
     if (!name && !username && !email && !password && !avatar && !background)
         throw new Error('Pelo menos um campo deve ser informado para atualização!')
@@ -44,7 +44,7 @@ const update = async ({ name, username, email, password, avatar, background }, u
 
     // implementar funcionalidade para mudança de password
 
-    await userRepositories.updateRepository(
+    const response = await userRepositories.updateRepository(
         userId,
         name,
         username,
@@ -54,7 +54,7 @@ const update = async ({ name, username, email, password, avatar, background }, u
         background,
     );
 
-    return { message: 'Usuário atualizado!' };
+    return { message: 'Usuário atualizado!',  response};
 };
 
 export default {

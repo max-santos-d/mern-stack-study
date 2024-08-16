@@ -38,7 +38,9 @@ const updateRepository = (
         password,
         avatar,
         background,
-    });
+    },
+    {new: true}
+);
 
 export default {
     storeRepository,
