@@ -11,8 +11,9 @@ const store = async (req, res) => {
             user
         });
     } catch (err) {
-        res.status(500).send(err.message);
-        console.log(err);
+        console.log(err)
+        if(err.code === 11000) return res.status(500).send({message: 'username ou e-mail já cadastrado!'});
+        return res.status(500).send(err.message);
     };
 };
 
