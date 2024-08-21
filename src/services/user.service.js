@@ -16,9 +16,12 @@ const store = async ({ name, username, email, password, avatar, background }) =>
         });
 
     if (!user) throw new Error('Erro ao criar usuario');
-    const token = await loginService.login(email, password);
-    user.token = token;
-    return user;
+
+    const token = await loginService.login(email, password);   
+
+    if (!token) throw new Error('Erro ao realizar login');
+
+    return {user, token};
 };
 
 const index = async () => {
@@ -56,7 +59,7 @@ const update = async (userId, { name, username, email, password, avatar, backgro
         background,
     );
 
-    return { message: 'Usuário atualizado!',  response};
+    return { message: 'Usuário atualizado!', response };
 };
 
 export default {

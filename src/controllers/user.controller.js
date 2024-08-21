@@ -4,15 +4,16 @@ const store = async (req, res) => {
     const { name, username, email, password, avatar, background } = req.body;
 
     try {
-        const user = await userService.store({ name, username, email, password, avatar, background });
+        const response = await userService.store({ name, username, email, password, avatar, background });
 
         res.status(200).send({
             message: 'Usuário criado com sucesso',
-            user
+            response
         });
     } catch (err) {
         console.log(err)
         if (err.code === 11000) return res.status(500).send({ message: 'username ou e-mail já cadastrado!' });
+        if (err.code === E11000) return res.status(500).send({ message: 'username ou e-mail já cadastrado!' });
         return res.status(500).send({ message: err.message });
     };
 };
