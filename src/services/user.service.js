@@ -17,7 +17,7 @@ const store = async ({ name, username, email, password, avatar, background }) =>
 
     if (!user) throw new Error('Erro ao criar usuario');
 
-    const token = await loginService.login(email, password);   
+    const {token} = await loginService.login(email, password);   
 
     if (!token) throw new Error('Erro ao realizar login');
 
