@@ -1,4 +1,5 @@
 import userRepositories from "../repositories/user.repositories.js";
+import loginService from '../services/auth.service.js'
 
 const store = async ({ name, username, email, password, avatar, background }) => {
     if (!name || !username || !email || !password || !avatar || !background)
@@ -14,8 +15,9 @@ const store = async ({ name, username, email, password, avatar, background }) =>
             background
         });
 
-    if (!user) throw new Error('Erro ao criar usuario')
-
+    if (!user) throw new Error('Erro ao criar usuario');
+    const token = await loginService.login(email, password);
+    user.token = token;
     return user;
 };
 

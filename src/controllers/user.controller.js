@@ -28,10 +28,8 @@ const index = async (req, res) => {
 };
 
 const show = async (req, res) => {
-    const userId = req.user;
-
     try {
-        const user = await userService.show(userId);
+        const user = await userService.show(req.user);
         return res.status(200).send(user);
     } catch (err) {
         res.status(500).send({ message: err.message });

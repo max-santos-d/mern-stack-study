@@ -63,9 +63,9 @@ const show = async (query) => {
                     banner: news.banner,
                     likes: news.likes,
                     comments: news.comments,
-                    name: news.user.name,
-                    userName: news.user.username,
-                    userAvatar: news.user.avatar,
+                    name: news.user.name || '',
+                    userName: news.user.username || '',
+                    userAvatar: news.user.avatar || '',
                 },
             });
         };
@@ -141,7 +141,7 @@ const erase = async (id, userIdToken) => {
     const news = await newsRepositories.show(id);
 
     if (!news) throw new Error('Post não encontrado!');
-    //if (String(news.user._id) !== String(userIdToken)) throw new Error('Não autenticado como usuário da News.');
+    if (String(news.user._id) !== String(userIdToken)) throw new Error('Não autenticado como usuário da News.');
 
     await newsRepositories.erase(id);
     return ({ message: 'Post Apagado!' });
