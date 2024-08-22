@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 import authRepository from '../repositories/auth.repositories.js'
 
-const login = async (email, password, userId) => {
+const login = async (email, password) => {
 
     if (!email || !password) throw new Error('Email e senha requerido.');
 

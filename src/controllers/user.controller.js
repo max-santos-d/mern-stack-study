@@ -12,8 +12,7 @@ const store = async (req, res) => {
         });
     } catch (err) {
         console.log(err)
-        if (err.code === 11000) return res.status(500).send({ message: 'username ou e-mail já cadastrado!' });
-        if (err.code === E11000) return res.status(500).send({ message: 'username ou e-mail já cadastrado!' });
+        if (err.code == 11000) return res.status(500).send({ message: 'username ou e-mail já cadastrado!' });
         return res.status(500).send({ message: err.message });
     };
 };
@@ -64,9 +63,21 @@ const update = async (req, res) => {
 
 };
 
+const findUserAuth = async (req, res) => {   
+    try{
+        const response = await userService.show(req.userId);
+
+        return res.status(200).send(response);
+    }catch(err){
+        res.status(500).send({ message: err.message });
+        console.log(err);
+    }
+};
+
 export default {
     store,
     index,
     show,
-    update
+    update,
+    findUserAuth
 };

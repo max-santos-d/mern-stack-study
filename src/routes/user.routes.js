@@ -8,7 +8,11 @@ const userRoutes = Router();
 
 userRoutes.post('/', userController.store);
 userRoutes.get('/', userController.index);
+
+userRoutes.get('/findUserAuth', authMiddleware, userController.findUserAuth);
+
 userRoutes.get('/:id', authMiddleware, isValid, userController.show);
 userRoutes.patch('/:id', authMiddleware, isValid, userController.update);
+
 
 export default userRoutes;
