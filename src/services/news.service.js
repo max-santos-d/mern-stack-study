@@ -93,7 +93,6 @@ const show = async (query) => {
 
     if (query.title) {
         const news = await newsRepositories.showByTitle(query.title);
-
         if (!news) throw new Error('Nenhuma noticia com o título');
 
         return ({
@@ -111,13 +110,12 @@ const show = async (query) => {
         });
     };
 
-    if(query.userId){
-        const news = await newsRepositories.showByUser(query.userId);
+    if(query.userId){      
+        const news = await newsRepositories.showByUser(query.userId );
 
         return news;
     };
-
-    return ({ message: 'Nenhum parâmetro válido informado' });
+    return ([{ message: 'Nenhum parâmetro válido informado' }]);
 };
 
 const update = async (title, text, banner, id, userIdToken) => {

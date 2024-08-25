@@ -25,7 +25,6 @@ const index = async (req, res) => {
 };
 
 const show = async (req, res) => {
-
     try {
         const response = await newsService.show(req.query);
         return res.status(200).send(response);
