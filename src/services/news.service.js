@@ -3,7 +3,7 @@ import newsRepositories from '../repositories/news.repositories.js';
 
 const store = async (title, text, banner, userId) => {
     if (!title || !text || !banner) throw new Error('Campos obrigatórios em falta! -> title, text, banner');
-    if(!userId) throw new Error('ID de usuário não informado!');
+    if (!userId) throw new Error('ID de usuário não informado!');
 
     await newsRepositories.store({
         title,
@@ -111,6 +111,12 @@ const show = async (query) => {
         });
     };
 
+    if(query.userId){
+        const news = await newsRepositories.showByUser(query.userId);
+
+        return news;
+    };
+
     return ({ message: 'Nenhum parâmetro válido informado' });
 };
 
@@ -168,7 +174,7 @@ const messages = async (userId) => {
 };
 
 const like = async (id, userIdToken) => {
-    
+
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('ID News inválida!');
 
     const like = await newsRepositories.like(id, userIdToken);

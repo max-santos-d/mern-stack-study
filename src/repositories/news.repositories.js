@@ -14,6 +14,10 @@ const showByTitle = (title) => News.find({
     title: { $regex: `${title || ''}`, $options: 'i' },
 }).sort({ _id: -1 }).populate('user');
 
+const showByUser = (userId) => News.find(
+    {user: userId}
+);
+
 const userMessages = (id) => News.find({ user: id }).sort({ _id: -1 }).populate('user');
 
 const contNews = () => News.countDocuments();
@@ -39,6 +43,7 @@ export default {
     show,
     showLast,
     showByTitle,
+    showByUser,
     userMessages,
     contNews,
     update,
