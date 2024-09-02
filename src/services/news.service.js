@@ -179,6 +179,10 @@ const like = async (id, userIdToken) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('ID News inválida!');
 
+    const news = await newsRepositories.show(id);
+
+    if(!news) return ({ message: 'News não encontrada!' });
+
     const like = await newsRepositories.like(id, userIdToken);
 
     if (!like) {
