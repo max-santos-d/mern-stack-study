@@ -125,6 +125,7 @@ const update = async (title, text, banner, id, userIdToken) => {
     const news = await newsRepositories.show(id);
 
     if (!news) throw new Error('Post não encontrado!');
+
     if (String(news.user._id) !== String(userIdToken)) throw new Error('Não autenticado como usuário do Post.');
     if (!title && !text && !banner) throw new Error('Ao menos um campo obrigatório deve ser informado: title, text ou banner.');
 
@@ -143,6 +144,9 @@ const erase = async (id, userIdToken) => {
     if (!mongoose.Types.ObjectId.isValid(id)) throw new Error('ID News inválida!');
 
     const news = await newsRepositories.show(id);
+
+    console.log(news._id)
+    console.log(userIdToken);
 
     if (!news) throw new Error('Post não encontrado!');
     if (String(news.user._id) !== String(userIdToken)) throw new Error('Não autenticado como usuário da News.');

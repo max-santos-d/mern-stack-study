@@ -49,10 +49,11 @@ const update = async (req, res) => {
 };
 
 const erase = async (req, res) => {
-    const id = req.params.id;
+    const id = req.params.id || '';
+    const userIdToken = req.userId || '';
 
     try {
-        await newsService.erase(id);
+        await newsService.erase(id, userIdToken);
         res.status(200).send({ message: 'News Apagada!' });
     } catch (err) {
         console.log(err);
